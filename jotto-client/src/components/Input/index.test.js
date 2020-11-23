@@ -8,8 +8,8 @@ const setup = (initialState = {}) => {
   const wrapper = shallow(<Input store={store} />)
     .dive()
     .dive();
-  return wrapper;
   // console.log(wrapper.debug());
+  return wrapper;
 };
 
 describe('render', () => {
@@ -52,4 +52,18 @@ describe('render', () => {
   });
 });
 
-describe('update state', () => {});
+describe('redux props', () => {
+  it('has success piece of state as prop', () => {
+    const success = true;
+    const wrapper = setup({ success });
+    // console.log(wrapper.instance().props.success);
+    const successProp = wrapper.instance().props.success;
+    expect(successProp).toBe(success);
+  });
+  it('`guessWord` action creator is a function prop', () => {
+    const wrapper = setup();
+    // console.log(wrapper.instance());
+    const guessWordProp = wrapper.instance().props.guessWord;
+    expect(guessWordProp).toBeInstanceOf(Function);
+  });
+});
