@@ -3,12 +3,16 @@ import { mount } from 'enzyme';
 import { findByTestAttr } from '../../../test/testUtils';
 import App from './';
 import hookActions from '../../actions/hookActions';
+// import enableHooks from 'jest-react-hooks-shallow';
 
 const mockGetSecretWord = jest.fn();
 
-const setup = () => {
+const setup = (secretWord = 'party') => {
   mockGetSecretWord.mockClear();
   hookActions.getSecretWord = mockGetSecretWord;
+
+  const mockUseReducer = jest.fn().mockReturnValue([{ secretWord }, jest.fn()]);
+  React.useReducer = mockUseReducer;
   return mount(<App />);
 };
 
@@ -23,6 +27,44 @@ describe('getSecretWord calls', () => {
   it('`getSecretWord` gets called on App mount', () => {
     setup();
     expect(mockGetSecretWord).toHaveBeenCalled();
+  });
+
+  it('`getSecretWord` does NOT update on App update', () => {
+    const wrapper = setup();
+    mockGetSecretWord.mockClear();
+
+    wrapper.setProps();
+    expect(mockGetSecretWord).not.toHaveBeenCalled();
+  });
+});
+
+describe('secretWord is NOT null', () => {
+  let wrapper;
+  beforeEach(() => {
+    wrapper = setup('party');
+  });
+  it('renders app when secretWord is not null', () => {
+    const appComponent = findByTestAttr(wrapper, 'component-app');
+    expect(appComponent.exists()).toBe(true);
+  });
+  it('does not render spinner when secretWord is not null', () => {
+    const spinnerComponent = findByTestAttr(wrapper, 'spinner');
+    expect(spinnerComponent.exists()).toBe(false);
+  });
+});
+
+describe('secretWord is null', () => {
+  let wrapper;
+  beforeEach(() => {
+    wrapper = setup(null);
+  });
+  it('does NOT render app when secretWord is null', () => {
+    const appComponent = findByTestAttr(wrapper, 'component-app');
+    expect(appComponent.exists()).toBe(false);
+  });
+  it('renders spinner when secretWord is null', () => {
+    const spinnerComponent = findByTestAttr(wrapper, 'spinner');
+    expect(spinnerComponent.exists()).toBe(true);
   });
 });
 

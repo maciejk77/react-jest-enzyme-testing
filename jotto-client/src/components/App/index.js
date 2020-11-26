@@ -22,10 +22,12 @@ const App = () => {
     hookActions.getSecretWord(setSecretWord);
   }, []);
 
+  if (!state.secretWord) return <div data-test="spinner">[SPINNER HERE]</div>;
+
   return (
     <div data-test="component-app">
       <h1>Jotto</h1>
-      <Input />
+      <Input secretWord={state.secretWord} />
     </div>
   );
 };
