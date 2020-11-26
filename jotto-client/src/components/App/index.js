@@ -1,9 +1,11 @@
 import React from 'react';
+import Input from '../Input';
 
 const App = () => {
   return (
     <div data-test="component-app">
       <h1>Jotto</h1>
+      <Input />
     </div>
   );
 };
