@@ -1,7 +1,27 @@
 import React from 'react';
+import { actionTypes } from '../../actions';
+import hookActions from '../../actions/hookActions';
 import Input from '../Input';
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case actionTypes.SET_SECRET_WORD:
+      return { ...state, secretWord: action.payload };
+    default:
+      return state;
+  }
+};
+
 const App = () => {
+  const [state, dispatch] = React.useReducer(reducer, { secretWord: null });
+
+  const setSecretWord = (secretWord) =>
+    dispatch({ type: actionTypes.SET_SECRET_WORD, payload: secretWord });
+
+  React.useEffect(() => {
+    hookActions.getSecretWord(setSecretWord);
+  }, []);
+
   return (
     <div data-test="component-app">
       <h1>Jotto</h1>
