@@ -43,10 +43,12 @@ describe('secretWord is NOT null', () => {
   beforeEach(() => {
     wrapper = setup('party');
   });
+
   it('renders app when secretWord is not null', () => {
     const appComponent = findByTestAttr(wrapper, 'component-app');
     expect(appComponent.exists()).toBe(true);
   });
+
   it('does not render spinner when secretWord is not null', () => {
     const spinnerComponent = findByTestAttr(wrapper, 'spinner');
     expect(spinnerComponent.exists()).toBe(false);
@@ -58,10 +60,12 @@ describe('secretWord is null', () => {
   beforeEach(() => {
     wrapper = setup(null);
   });
+
   it('does NOT render app when secretWord is null', () => {
     const appComponent = findByTestAttr(wrapper, 'component-app');
     expect(appComponent.exists()).toBe(false);
   });
+
   it('renders spinner when secretWord is null', () => {
     const spinnerComponent = findByTestAttr(wrapper, 'spinner');
     expect(spinnerComponent.exists()).toBe(true);
