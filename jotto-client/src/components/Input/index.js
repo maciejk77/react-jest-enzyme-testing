@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import stringsModule from '../../helpers/strings';
+import languageContext from '../../contexts/languageContext';
 
 const Input = ({ secretWord }) => {
   const [currentGuess, setCurrentGuess] = React.useState(''); // no destructuring to be able to mock it
+  const language = useContext(languageContext);
 
   const handleButtonClick = (e) => {
     e.preventDefault();
@@ -14,7 +17,10 @@ const Input = ({ secretWord }) => {
         <input
           data-test="input-box"
           onChange={(e) => setCurrentGuess(e.target.value)}
-          placeholder="Enter guess"
+          placeholder={stringsModule.getStringByLanguage(
+            language,
+            'guessInputPlaceholder'
+          )}
           type="text"
           value={currentGuess}
         />
@@ -23,7 +29,7 @@ const Input = ({ secretWord }) => {
           onClick={handleButtonClick}
           type="submit"
         >
-          Submit
+          {stringsModule.getStringByLanguage(language, 'submit')}
         </button>
       </form>
     </div>

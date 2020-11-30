@@ -53,3 +53,22 @@ describe('Guessed words exist', () => {
     expect(guessedWordsNode.length).toBe(guessedWords.length);
   });
 });
+
+describe('languagePicker', () => {
+  it('correctly renders guess instructions string in English by default', () => {
+    const wrapper = setup({ guessedWords: [] });
+    const guessInstructions = findByTestAttr(wrapper, 'guess-instruction');
+    expect(guessInstructions.text()).toBe('Try to guess the secret word');
+  });
+
+  it('correctly renders guess instructions string in Polish', () => {
+    const mockUseContext = jest.fn().mockReturnValue('pl');
+    React.useContext = mockUseContext;
+
+    const wrapper = setup({ guessedWords: [] });
+    const guessInstructions = findByTestAttr(wrapper, 'guess-instruction');
+    expect(guessInstructions.text()).toBe('Sprobuj zgadnac slowo');
+  });
+});
+
+// Sprobuj zgadnac slowo
